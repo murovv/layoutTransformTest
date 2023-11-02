@@ -1,0 +1,71 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:LayoutTransformTest.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:LayoutTransformTest.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="LayoutTransformTest.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="LayoutTransformTest"
+        Width="800"
+        Height="600"
+        >
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <DockPanel>
+        <Panel Width="100" Background="Blue" DockPanel.Dock="Left">
+            <StackPanel>
+            <Button Click="Button_OnClick">Change child</Button>
+                <Button Click="ButtonPlus_OnClick">+</Button>
+                <Button Click="ButtonMinus_OnClick"></Button>
+            </StackPanel>
+        </Panel>
+        <views:MyZoomBorder x:Name="ZoomBorder" PanButton="Right">
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="3000" Height="3000" Background="Red">
+            <ItemsControl>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas></Canvas>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.Items>
+                    <Rectangle  Margin="100,100,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                    <Rectangle  Margin="2800,100,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                    <Ellipse Width="20" Height="20" Fill="Aqua" Margin="1500, 1500,0,0"></Ellipse>
+                    <Rectangle  Margin="2800,2800,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                    <Rectangle  Margin="100,2800,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                </ItemsControl.Items>
+            </ItemsControl>
+            </Grid>
+        </views:MyZoomBorder>
+        <!--<Border Background="Transparent" PointerWheelChanged="InputElement_OnPointerWheelChanged"
+                PointerPressed="Trans_OnPointerPressed"
+                PointerMoved="InputElement_OnPointerMoved"
+                PointerReleased="InputElement_OnPointerReleased" ClipToBounds="True">
+        <LayoutTransformControl Width="30000" Height="30000" HorizontalAlignment="Left" VerticalAlignment="Top"     Name="Trans" >
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="3000" Height="3000" Background="Red">
+                    <ItemsControl>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas></Canvas>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.Items>
+                            <Rectangle  Margin="100,100,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                            <Rectangle  Margin="2800,100,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                            <Rectangle  Margin="2800,2800,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                            <Rectangle  Margin="100,2800,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                        </ItemsControl.Items>
+                    </ItemsControl>
+                </Grid>
+            </LayoutTransformControl>
+        </Border>-->
+    <Rectangle Height="100" DockPanel.Dock="Bottom" Fill="Yellow"></Rectangle>
+    </DockPanel>
+</Window>

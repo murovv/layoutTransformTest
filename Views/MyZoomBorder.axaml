@@ -1,0 +1,34 @@
+﻿<controls:ContentControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="https://github.com/avaloniaui"
+    xmlns:views="clr-namespace:LayoutTransformTest.Views"
+    xmlns:converter="clr-namespace:LayoutTransformTest.Converter"
+    x:Class="LayoutTransformTest.Views.MyZoomBorder"
+    DataContext="{Binding $self}"
+    x:DataType="views:MyZoomBorder"
+    Background="Transparent"
+    PointerWheelChanged="InputElement_OnPointerWheelChanged"
+    PointerPressed="Trans_OnPointerPressed"
+    PointerMoved="InputElement_OnPointerMoved"
+    PointerReleased="InputElement_OnPointerReleased" ClipToBounds="True">
+    <ContentControl.Resources>
+        <converter:ZoomBorderSizeConverter x:Key="ZoomBorderSizeConverter"/> 
+    </ContentControl.Resources>
+    <ContentControl.Styles>
+        <Style Selector="views|MyZoomBorder">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border ClipToBounds="True" Background="Transparent">
+                    <LayoutTransformControl Width="{TemplateBinding Content, Converter={StaticResource ZoomBorderSizeConverter}}" Height="{TemplateBinding Content, Converter={StaticResource ZoomBorderSizeConverter}}" HorizontalAlignment="Left" VerticalAlignment="Top"     Name="Trans"  >
+                        <ContentPresenter PropertyChanged="AvaloniaObject_OnPropertyChanged" Content="{TemplateBinding Content}"/>
+                    </LayoutTransformControl>
+                    </Border>
+                </ControlTemplate>
+                </Setter>
+        </Style>
+    </ContentControl.Styles>
+    
+</controls:ContentControl>

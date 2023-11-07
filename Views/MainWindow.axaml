@@ -21,13 +21,13 @@
     <DockPanel>
         <Panel Width="100" Background="Blue" DockPanel.Dock="Left">
             <StackPanel>
-            <Button Click="Button_OnClick">Change child</Button>
+            <Button Click="Button_OnClick">Fit Items</Button>
                 <Button Click="ButtonPlus_OnClick">+</Button>
                 <Button Click="ButtonMinus_OnClick"></Button>
             </StackPanel>
         </Panel>
         <views:MyZoomBorder x:Name="ZoomBorder" PanButton="Right">
-            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="3000" Height="3000" Background="Red">
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="2000" Height="3000" Background="Red">
             <ItemsControl>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -36,9 +36,9 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.Items>
                     <Rectangle  Margin="100,100,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
-                    <Rectangle  Margin="2800,100,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                    <Rectangle  Margin="1800,100,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
                     <Ellipse Width="20" Height="20" Fill="Aqua" Margin="1500, 1500,0,0"></Ellipse>
-                    <Rectangle  Margin="2800,2800,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
+                    <Rectangle  Margin="1800,2800,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
                     <Rectangle  Margin="100,2800,0,0" Width="100" Height="100" Fill="Aqua"></Rectangle>
                 </ItemsControl.Items>
             </ItemsControl>

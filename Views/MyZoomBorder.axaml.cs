@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -6,6 +7,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.VisualTree;
 using MouseButton = Avalonia.Remote.Protocol.Input.MouseButton;
 
 namespace LayoutTransformTest.Views;
@@ -54,13 +56,11 @@ public partial class MyZoomBorder : ContentControl
         InitializeComponent();
     }
 
-    public void FitContent()
+    private void FitToBounds(double width, double height, double marginX, double marginY)
     {
-        var content = (TransformControl.Child as ContentPresenter).Child;
-        if(content == null) return;
         double scale = 1;
-        var scaleX =  Bounds.Width/content.Bounds.Width;
-        var scaleY = Bounds.Height/content.Bounds.Height;
+        var scaleX =  Bounds.Width/width;
+        var scaleY = Bounds.Height/height;
         TranslateTransform transition = null;
         if (scaleY<scaleX)
         {
@@ -75,7 +75,7 @@ public partial class MyZoomBorder : ContentControl
             }
 
             totalScale = scaleY;
-            transition = new TranslateTransform((Bounds.Width - content.Bounds.Width * scaleY)/2, 0);
+            transition = new TranslateTransform((Bounds.Width - width * scaleY)/2 - marginX*scaleY,  -marginY*scaleY);
             TransformControl.LayoutTransform = new ScaleTransform(scaleY, scaleY);
             TransformControl.RenderTransform = transition;
             
@@ -93,10 +93,29 @@ public partial class MyZoomBorder : ContentControl
             }
 
             totalScale = scaleX;
-            transition = new TranslateTransform(0, (Bounds.Height - content.Bounds.Height * scaleX)/2);
+            transition = new TranslateTransform(-marginX*scaleX, (Bounds.Height - height * scaleX)/2 - marginY*scaleX);
             TransformControl.LayoutTransform = new ScaleTransform(scaleX, scaleX);
             TransformControl.RenderTransform = transition;
         }
+    }
+
+    public void FitContent()
+    {
+        var content = (TransformControl.Child as ContentPresenter).Child;
+        if(content == null) return;
+        FitToBounds(content.Bounds.Width,content.Bounds.Height, 0, 0 );
+        
+    }
+
+    public void FitItems()
+    {
+        var itemsControl = this.FindDescendantOfType<ItemsControl>();
+        var items = itemsControl.Items.Select(x => x as Control).ToList();
+        var rightItem = items.MaxBy(x => x.Margin.Left);
+        var width = rightItem.Margin.Left + rightItem.Width - items.MinBy(x => x.Margin.Left).Margin.Left;
+        var bottomItem = items.MaxBy(x => x.Margin.Top);
+        var height = bottomItem.Margin.Top+bottomItem.Height - items.MinBy(x => x.Margin.Top).Margin.Top;
+        FitToBounds(width,height,items.MinBy(x => x.Margin.Left).Margin.Left, items.MinBy(x => x.Margin.Top).Margin.Top );
     }
     
 
@@ -192,8 +211,15 @@ public partial class MyZoomBorder : ContentControl
             TransformControl.LayoutTransform = null;
             TransformControl.RenderTransform = null;
             (sender as ContentPresenter).Child.Loaded += OnLoaded;
-            //FitContent();
+            var oldChild = e.OldValue as Control;
+            var newChild = e.NewValue as Control;
+            /*oldChild.PropertyChanged+= OldChildOnPropertyChanged;*/
         }
+    }
+
+    private void OldChildOnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        throw new NotImplementedException();
     }
 
     private void OnLoaded(object? sender, RoutedEventArgs e)

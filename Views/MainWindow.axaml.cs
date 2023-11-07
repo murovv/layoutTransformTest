@@ -18,14 +18,7 @@ public partial class MainWindow : Window
 
     private void Button_OnClick(object? sender, RoutedEventArgs e)
     {
-        this.Find<MyZoomBorder>("ZoomBorder").Content = new Grid()
-        {
-            HorizontalAlignment= HorizontalAlignment.Left,
-            VerticalAlignment= VerticalAlignment.Top,
-            Width = 600,
-            Height = 2000,
-            Background = Brushes.Blue
-        };
+        this.Find<MyZoomBorder>("ZoomBorder").FitItems();
     }
 
     private void ButtonPlus_OnClick(object? sender, RoutedEventArgs e)
